@@ -21,3 +21,7 @@ button { cursor: pointer; }
 .messages { list-style: none; padding: 0; }
 .messages li { border-bottom: 1px solid #8884; padding-block: 0.5rem; }
 .messages p { margin: 0; font-size: 1.25rem; }
+.messages button { all: unset; display: block; width: 100%; cursor: pointer; }
+.messages button:hover p { text-decoration: underline; }
+.messages button:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+#player:not([hidden]) { display: block; margin-top: 0.5rem; }

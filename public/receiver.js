@@ -155,11 +155,19 @@ function render() {
   list.replaceChildren(
     ...sorted.map(message => {
       const item = document.createElement('li');
+      // A message with audio is a button, so a receiver can play it (again) by clicking it.
+      const body = document.createElement(message.voice_message_url ? 'button' : 'div');
       const text = document.createElement('p');
       text.textContent = message.text; // never innerHTML: message text is not HTML
       const meta = document.createElement('small');
       meta.textContent = new Date(message.created_at).toLocaleTimeString() + (message.voice_message_url ? ' · 🔊' : '');
-      item.append(text, meta);
+      body.append(text, meta);
+      if (message.voice_message_url) {
+        body.type = 'button';
+        body.title = 'Play';
+        body.addEventListener('click', () => playNow(message.voice_message_url));
+      }
+      item.append(body);
       return item;
     }),
   );
@@ -188,6 +196,12 @@ async function voteForAudio() {
     el('audio-status').textContent = 'No audio available for this language.';
     throw error;
   }
+}
+
+function playNow(url) {
+  audioQueue.length = 0;
+  audioQueue.push(url);
+  playNext();
 }
 
 function enqueueAudio(url) {

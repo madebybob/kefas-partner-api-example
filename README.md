@@ -28,7 +28,7 @@ Open <http://localhost:3000>:
 
 1. **Channel.** Pick a name and languages (`EN, NL, DE`) and save. The links that appear open a receiver page per language; open one or more in other tabs.
 2. **Meeting.** Start a meeting with the language the speaker will use.
-3. **Type** a sentence and send it. Every receiver page shows the translation within a few seconds. Tick *Listen* on a receiver page to hear it too.
+3. **Type** a sentence and send it. Every receiver page shows the translation within a few seconds. Tick *Listen* on a receiver page to hear it too, and click a message with 🔊 to play it again.
 4. **Speak.** *Start microphone* publishes your microphone over WHIP, and Kefas translates what you say.
 5. **End meeting** when you are done. A meeting cannot be restarted; start a new one for the next session.
 
@@ -36,7 +36,7 @@ Open <http://localhost:3000>:
 
 ### Against a preview environment
 
-Set `KEFAS_API_URL` to the preview host, for example `https://pr-825.kefas.dev`. The receiver token response tells the browser which Reverb host to use, so nothing else changes. Audio streaming (WHIP) does not work on preview environments: use *Type* there. Listening may not work there either: a preview stores the audio files where the browser cannot fetch them, so the receiver page shows "An audio file could not be loaded."
+Set `KEFAS_API_URL` to the preview host, for example `https://pr-825.kefas.dev`. The receiver token response tells the browser which Reverb host to use, so nothing else changes. Audio streaming (WHIP) does not work on preview environments: use *Type* there. Listening only works on a preview that stores audio in the Spaces bucket (`FILESYSTEM_VOICE_MESSAGES_DISK=s3`); otherwise the receiver page shows "An audio file could not be loaded."
 
 ## What is where
 
