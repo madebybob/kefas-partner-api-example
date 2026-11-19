@@ -155,11 +155,19 @@ function render() {
   list.replaceChildren(
     ...sorted.map(message => {
       const item = document.createElement('li');
+      // A message with audio is a button, so a receiver can play it (again) by clicking it.
+      const body = document.createElement(message.voice_message_url ? 'button' : 'div');
       const text = document.createElement('p');
       text.textContent = message.text; // never innerHTML: message text is not HTML
       const meta = document.createElement('small');
       meta.textContent = new Date(message.created_at).toLocaleTimeString() + (message.voice_message_url ? ' · 🔊' : '');
-      item.append(text, meta);
+      body.append(text, meta);
+      if (message.voice_message_url) {
+        body.type = 'button';
+        body.title = 'Play';
+        body.addEventListener('click', () => playNow(message.voice_message_url));
+      }
+      item.append(body);
       return item;
     }),
   );
@@ -190,6 +198,12 @@ async function voteForAudio() {
   }
 }
 
+function playNow(url) {
+  audioQueue.length = 0;
+  audioQueue.push(url);
+  playNext();
+}
+
 function enqueueAudio(url) {
   audioQueue.push(url);
   if (!audioPlaying) playNext();
@@ -201,10 +215,21 @@ function playNext() {
   if (!url) return;
 
   const player = el('player');
+  player.hidden = false;
   player.src = url;
   player.onended = playNext;
-  player.onerror = playNext;
-  player.play().catch(playNext);
+  player.onerror = () => {
+    el('audio-status').textContent = 'An audio file could not be loaded.';
+    console.warn('Could not load audio', url);
+    playNext();
+  };
+  player.play().catch(error => {
+    // A load error also rejects play(); onerror already moved on for that one.
+    if (error.name !== 'NotAllowedError') return;
+    el('audio-status').textContent = 'The browser blocked playback. Untick and tick Listen to allow it.';
+    audioQueue.length = 0;
+    audioPlaying = false;
+  });
 }
 
 // --- Helpers ----------------------------------------------------------------------------
