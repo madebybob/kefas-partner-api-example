@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kefas partner API example · Operator</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Operator</h1>
+      <p class="hint">Runs a session through the Kefas partner API. Everything here goes through this app's own backend.</p>
+      <p id="error" class="error" hidden></p>
+
+      <section>
+        <h2>1. Channel</h2>
+        <form id="channel-form">
+          <label>Name <input id="channel-name" required value="Example channel" /></label>
+          <label>Languages <input id="channel-languages" required value="EN, NL, DE" /></label>
+          <button>Save channel</button>
+        </form>
+        <ul id="receiver-links"></ul>
+      </section>
+
+      <section id="meeting-section" hidden>
+        <h2>2. Meeting</h2>
+        <form id="meeting-form">
+          <label>Name <input id="meeting-name" required value="Example session" /></label>
+          <label>Speaker language <input id="meeting-language" required value="EN" size="4" /></label>
+          <button>Start meeting</button>
+        </form>
+
+        <div id="live" hidden>
+          <p><strong id="meeting-title"></strong> · state: <span id="meeting-state" class="badge"></span></p>
+
+          <h3>Speak</h3>
+          <p class="hint">Publishes your microphone over WHIP. Not available on Kefas preview environments.</p>
+          <button id="mic-toggle" type="button">Start microphone</button>
+
+          <h3>Type</h3>
+          <form id="text-form">
+            <label>Language <input id="text-language" required size="4" /></label>
+            <textarea id="text-content" rows="2" placeholder="Welcome to the third lecture."></textarea>
+            <button>Send text</button>
+          </form>
+
+          <h3>Finish</h3>
+          <button id="end-meeting" type="button" class="danger">End meeting</button>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/operator.js"></script>
+  </body>
+</html>

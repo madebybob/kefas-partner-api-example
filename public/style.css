@@ -1,0 +1,23 @@
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+body { margin: 0; }
+main { max-width: 40rem; margin: 0 auto; padding: 1rem; }
+section { margin-block: 1.5rem; }
+form { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: end; }
+label { display: flex; flex-direction: column; font-size: 0.875rem; }
+label.toggle { flex-direction: row; gap: 0.5rem; align-items: center; display: inline-flex; }
+input, textarea, button { font: inherit; padding: 0.4rem 0.6rem; }
+textarea { width: 100%; }
+button { cursor: pointer; }
+.danger { color: #b91c1c; }
+.hint { color: GrayText; font-size: 0.875rem; }
+.error { background: #fee2e2; color: #991b1b; padding: 0.5rem 0.75rem; border-radius: 0.25rem; }
+.badge { font-family: ui-monospace, monospace; padding: 0 0.4rem; border-radius: 0.25rem; background: #e5e7eb; color: #111; }
+.badge[data-state='listening'], .badge[data-state='connected'] { background: #bbf7d0; }
+.badge[data-state='stream_lost'], .badge[data-state='unavailable'] { background: #fed7aa; }
+.messages { list-style: none; padding: 0; }
+.messages li { border-bottom: 1px solid #8884; padding-block: 0.5rem; }
+.messages p { margin: 0; font-size: 1.25rem; }
