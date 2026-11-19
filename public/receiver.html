@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kefas partner API example · Receiver</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main>
+      <p id="error" class="error" hidden></p>
+
+      <section id="picker" hidden>
+        <h1>Pick your language</h1>
+        <ul id="languages"></ul>
+        <p id="no-channel" class="hint" hidden>No channel yet. Create one on the operator page.</p>
+      </section>
+
+      <section id="receiver" hidden>
+        <h1 id="language"></h1>
+        <p class="hint">Connection: <span id="status" class="badge">connecting</span></p>
+        <label class="toggle"><input id="audio-toggle" type="checkbox" /> Listen</label>
+        <span id="audio-status" class="hint"></span>
+        <audio id="player"></audio>
+
+        <ol id="messages" class="messages"></ol>
+        <p id="empty" class="hint">Waiting for the first translation…</p>
+      </section>
+    </main>
+    <script src="/vendor/pusher.min.js"></script>
+    <script type="module" src="/receiver.js"></script>
+  </body>
+</html>
