@@ -203,8 +203,18 @@ function playNext() {
   const player = el('player');
   player.src = url;
   player.onended = playNext;
-  player.onerror = playNext;
-  player.play().catch(playNext);
+  player.onerror = () => {
+    el('audio-status').textContent = 'An audio file could not be loaded.';
+    console.warn('Could not load audio', url);
+    playNext();
+  };
+  player.play().catch(error => {
+    // A load error also rejects play(); onerror already moved on for that one.
+    if (error.name !== 'NotAllowedError') return;
+    el('audio-status').textContent = 'The browser blocked playback. Untick and tick Listen to allow it.';
+    audioQueue.length = 0;
+    audioPlaying = false;
+  });
 }
 
 // --- Helpers ----------------------------------------------------------------------------

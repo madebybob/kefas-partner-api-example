@@ -36,7 +36,7 @@ Open <http://localhost:3000>:
 
 ### Against a preview environment
 
-Set `KEFAS_API_URL` to the preview host, for example `https://pr-825.kefas.dev`. The receiver token response tells the browser which Reverb host to use, so nothing else changes. Audio streaming (WHIP) does not work on preview environments: use *Type* there.
+Set `KEFAS_API_URL` to the preview host, for example `https://pr-825.kefas.dev`. The receiver token response tells the browser which Reverb host to use, so nothing else changes. Audio streaming (WHIP) does not work on preview environments: use *Type* there. Listening may not work there either: a preview stores the audio files where the browser cannot fetch them, so the receiver page shows "An audio file could not be loaded."
 
 ## What is where
 
