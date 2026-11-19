@@ -201,6 +201,7 @@ function playNext() {
   if (!url) return;
 
   const player = el('player');
+  player.hidden = false;
   player.src = url;
   player.onended = playNext;
   player.onerror = () => {
