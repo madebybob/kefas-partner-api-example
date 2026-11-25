@@ -68,7 +68,6 @@ const routes = {
   'POST /api/meetings/:id/messages': ({ params, body }) =>
     kefas.sendText(params.id, { content: body.content, language: body.language, clientMessageId: randomUUID() }),
 
-  'POST /api/meetings/:id/end': ({ params }) => kefas.endMeeting(params.id),
 
   // Receivers: hand out a short-lived token for one channel language.
   // In a real app, check here that the logged-in user may follow this channel,

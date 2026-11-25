@@ -30,7 +30,7 @@ Open <http://localhost:3000>:
 2. **Meeting.** Start a meeting with the language the speaker will use.
 3. **Type** a sentence and send it. Every receiver page shows the translation within a few seconds. Tick *Listen* on a receiver page to hear it too, and click a message with 🔊 to play it again.
 4. **Speak.** *Start microphone* asks Kefas for the meeting's stream (`stream/start`, through this backend) and publishes your microphone to it over WHIP; Kefas translates what you say. An unused stream expires after 60 minutes; pressing *Start microphone* again makes a new one.
-5. **End meeting** when you are done. A meeting cannot be restarted; start a new one for the next session.
+5. **Finish session** when you are done. It stops the microphone and forgets the meeting in this page; Kefas has no end call and stops listening once the audio has been gone for 10 minutes. Start a new meeting for the next session.
 
 `/receiver.html` without a `?cl=` parameter shows a language picker.
 
@@ -43,7 +43,7 @@ Set `KEFAS_API_URL` to the preview host, for example `https://pr-825.kefas.dev`.
 | File | What it shows |
 | --- | --- |
 | [`kefas.js`](kefas.js) | A thin client for the partner API. Note how a `409` on create is treated as success: with an `external_id` the call is idempotent. |
-| [`server.js`](server.js) | The partner backend. It keeps the token, creates the channel (by `external_id`) and meetings (a fresh `external_id` per session), relays text, ends meetings, and hands out receiver tokens only for languages of its own channel. |
+| [`server.js`](server.js) | The partner backend. It keeps the token, creates the channel (by `external_id`) and meetings (a fresh `external_id` per session), relays text, starts streams, and hands out receiver tokens only for languages of its own channel. |
 | [`public/operator.js`](public/operator.js) | The operator and speaker UI: polls the meeting state every 5 seconds, publishes the microphone over WHIP, sends text. |
 | [`public/receiver.js`](public/receiver.js) | The receiver: loads the history, subscribes to the private channel with pusher-js, catches up after a reconnect, renews its token before it expires (and on a `401`), follows a token rotation to the new channel name, and asks for audio every minute while *Listen* is on. |
 
