@@ -118,9 +118,9 @@ el('mic-toggle').addEventListener('click', async () => {
   if (publisher) return stopMicrophone();
 
   try {
-    // The stream details are a secret for this one meeting; fetch them fresh.
-    const { stream } = await api('GET', `/api/meetings/${meeting.id}`);
-    if (!stream) throw new Error('This meeting has no stream (any more).');
+    // The stream details are a secret for this one meeting. stream/start makes the
+    // stream now, or returns the open one, so pressing start again reconnects.
+    const { stream } = await api('POST', `/api/meetings/${meeting.id}/stream`);
     publisher = await publish(stream);
     el('mic-toggle').textContent = 'Stop microphone';
   } catch (error) {

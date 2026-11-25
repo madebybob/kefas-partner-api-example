@@ -62,6 +62,9 @@ const routes = {
 
   'GET /api/meetings/:id': ({ params }) => kefas.getMeeting(params.id),
 
+  // Makes the stream when the speaker starts, or returns the one the meeting already has.
+  'POST /api/meetings/:id/stream': ({ params }) => kefas.startStream(params.id),
+
   'POST /api/meetings/:id/messages': ({ params, body }) =>
     kefas.sendText(params.id, { content: body.content, language: body.language, clientMessageId: randomUUID() }),
 

@@ -29,7 +29,7 @@ Open <http://localhost:3000>:
 1. **Channel.** Pick a name and languages (`EN, NL, DE`) and save. The links that appear open a receiver page per language; open one or more in other tabs.
 2. **Meeting.** Start a meeting with the language the speaker will use.
 3. **Type** a sentence and send it. Every receiver page shows the translation within a few seconds. Tick *Listen* on a receiver page to hear it too, and click a message with 🔊 to play it again.
-4. **Speak.** *Start microphone* publishes your microphone over WHIP, and Kefas translates what you say.
+4. **Speak.** *Start microphone* asks Kefas for the meeting's stream (`stream/start`, through this backend) and publishes your microphone to it over WHIP; Kefas translates what you say. An unused stream expires after 60 minutes; pressing *Start microphone* again makes a new one.
 5. **End meeting** when you are done. A meeting cannot be restarted; start a new one for the next session.
 
 `/receiver.html` without a `?cl=` parameter shows a language picker.
@@ -54,7 +54,7 @@ The example leaves out what every real app has, so the API calls stay easy to se
 - **Log in your operators.** Every route except `GET /api/channel` and `POST /api/receiver-tokens` should sit behind your own authentication.
 - **Decide who may receive.** `POST /api/receiver-tokens` hands a token to anyone who asks for a language of the example channel. In your app, check that the user may follow that channel, and pass your own non-personal id for the user as `receiver_ref`.
 - **Store ids.** Keep the Kefas `id` next to your own `external_id` for channels and meetings in your database, instead of looking the channel up after a restart.
-- **Handle `stream_lost`** in the speaker UI: show that the audio stopped and reconnect over WHIP (same URL and token) for up to 10 minutes.
+- **Handle `stream_lost`** in the speaker UI: show that the audio stopped and reconnect over WHIP (same URL and token, which `stream/start` returns again) for up to 10 minutes.
 
 ## Can I do this without a backend?
 
