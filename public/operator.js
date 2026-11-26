@@ -57,8 +57,8 @@ el('meeting-form').addEventListener('submit', async event => {
 async function resumeMeeting() {
   const id = localStorage.getItem('meeting_id');
   if (!id) return;
-  const current = await api('GET', `/api/meetings/${id}`);
-  if (current.state !== 'ended') showMeeting(current);
+  const current = await api('GET', `/api/meetings/${id}`).catch(() => null);
+  if (current) showMeeting(current);
 }
 
 function showMeeting(current) {
@@ -81,13 +81,11 @@ function showMeeting(current) {
 function showState(state) {
   el('meeting-state').textContent = state;
   el('meeting-state').dataset.state = state;
-  if (state === 'ended') finishMeeting();
 }
 
-el('end-meeting').addEventListener('click', async () => {
-  const ended = await api('POST', `/api/meetings/${meeting.id}/end`).catch(showError);
-  if (ended) showState(ended.state);
-});
+// A meeting has no end in Kefas: stop publishing and forget it here. Kefas stops
+// listening once the audio has been gone for 10 minutes.
+el('finish-session').addEventListener('click', finishMeeting);
 
 function finishMeeting() {
   clearInterval(statePoller);
@@ -118,9 +116,9 @@ el('mic-toggle').addEventListener('click', async () => {
   if (publisher) return stopMicrophone();
 
   try {
-    // The stream details are a secret for this one meeting; fetch them fresh.
-    const { stream } = await api('GET', `/api/meetings/${meeting.id}`);
-    if (!stream) throw new Error('This meeting has no stream (any more).');
+    // The stream details are a secret for this one meeting. stream/start makes the
+    // stream now, or returns the open one, so pressing start again reconnects.
+    const { stream } = await api('POST', `/api/meetings/${meeting.id}/stream`);
     publisher = await publish(stream);
     el('mic-toggle').textContent = 'Stop microphone';
   } catch (error) {

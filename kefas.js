@@ -52,7 +52,8 @@ export function createKefasClient({ baseUrl, token }) {
 
     getMeeting: meetingId => request('GET', `/api/partner/meetings/${meetingId}`),
 
-    endMeeting: meetingId => request('POST', `/api/partner/meetings/${meetingId}/end`),
+    startStream: meetingId => request('POST', `/api/partner/meetings/${meetingId}/stream/start`),
+
 
     sendText: (meetingId, { content, language, clientMessageId }) =>
       request('POST', `/api/partner/meetings/${meetingId}/messages/create`, {
