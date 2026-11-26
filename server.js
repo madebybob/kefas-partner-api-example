@@ -57,6 +57,7 @@ const routes = {
       externalId: `example-meeting-${randomUUID()}`, // never reused, one per session
       inputLanguages: [body.input_language],
       channelIds: [current.id],
+      smartMode: { speed: 'fast' },
     });
   },
 

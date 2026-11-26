@@ -42,12 +42,13 @@ export function createKefasClient({ baseUrl, token }) {
     findChannels: ({ externalId }) =>
       request('GET', `/api/partner/channels?external_id=${encodeURIComponent(externalId)}`),
 
-    createMeeting: ({ name, externalId, inputLanguages, channelIds }) =>
+    createMeeting: ({ name, externalId, inputLanguages, channelIds, smartMode }) =>
       request('POST', '/api/partner/meetings/create', {
         name,
         external_id: externalId,
         input_languages: inputLanguages,
         channel_ids: channelIds,
+        smart_mode: smartMode,
       }),
 
     getMeeting: meetingId => request('GET', `/api/partner/meetings/${meetingId}`),
